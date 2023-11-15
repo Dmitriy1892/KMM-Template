@@ -1,6 +1,7 @@
+import extensions.libs
+
 plugins {
-    id("multiplatform-library-convention")
-    id("android-base-compose-convention")
+    id("multiplatform-setup")
     id("org.jetbrains.compose")
 }
 
@@ -12,14 +13,22 @@ kotlin {
             }
         }
 
-        commonMain {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
-            }
+        commonMain.dependencies {
+            implementation(compose.animation)
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material)
+            implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
+            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+            implementation(compose.components.resources)
+
+            implementation(libs.kotlinx.immutablecollections)
+            implementation(libs.composeImageLoader)
+        }
+
+        androidMain.dependencies {
+            implementation(libs.bundles.android.compose)
         }
     }
 }

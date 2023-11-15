@@ -1,40 +1,36 @@
+import extensions.androidMainDependencies
+import extensions.commonMainDependencies
+import extensions.iosMainDependencies
+
 plugins {
-    id("multiplatform-library-convention")
+    id("kmm.library.project")
     alias(libs.plugins.sqlDelight)
-    alias(libs.plugins.kotlinx.serialization)
-}
-
-kotlin {
-    sourceSets {
-        commonMain {
-            dependencies {
-                implementation(project(":core:data"))
-
-                implementation(libs.bundles.common.local)
-            }
-        }
-
-        androidMain {
-            dependencies {
-                implementation(libs.sqlDelight.driver.android)
-            }
-        }
-
-        iosMain {
-            dependencies {
-                implementation(libs.sqlDelight.driver.ios)
-            }
-        }
-    }
 }
 
 android {
-    namespace = "io.github.dmitriy1892.core.datasource.local.database"
+    namespace = "core.datasource.local.database"
+}
+
+commonMainDependencies {
+    implementation(project(":core:data"))
+
+    implementation(libs.sqlDelight.core)
+    implementation(libs.sqlDelight.extensions)
+}
+
+androidMainDependencies {
+    implementation(libs.sqlDelight.driver.android)
+}
+
+iosMainDependencies {
+    implementation(libs.sqlDelight.driver.ios)
 }
 
 sqldelight {
-    database("Database") {
-        packageName = "io.github.dmitriy1892.core.datasource.local.database"
-        sourceFolders = listOf("sqldelight")
+    databases {
+        linkSqlite.set(false)
+        create("Database") {
+            packageName.set("core.datasource.local.database.generated")
+        }
     }
 }

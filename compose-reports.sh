@@ -1,0 +1,1 @@
+./gradlew assembleRelease -PenableComposeCompilerMetrics=true -PenableComposeCompilerReports=true

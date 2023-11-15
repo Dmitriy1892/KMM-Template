@@ -1,17 +1,17 @@
-plugins {
-    id("multiplatform-library-convention")
-}
+import extensions.androidMainDependencies
+import extensions.commonMainDependencies
 
-kotlin {
-    sourceSets {
-        commonMain {
-            dependencies {
-                implementation(project(":navigation:api"))
-            }
-        }
-    }
+plugins {
+    id("kmm.feature.compose")
 }
 
 android {
-    namespace = "io.github.dmitriy1892.navigation.impl"
+    namespace = "navigation.impl"
+}
+
+commonMainDependencies {
+    implementation(project(":feature:app"))
+    implementation(project(":sample-feature:main"))
+    implementation(project(":sample-feature:sample-one"))
+    implementation(project(":sample-feature:tabview"))
 }

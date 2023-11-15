@@ -1,6 +1,7 @@
 package extensions
 
 import org.gradle.accessors.dm.LibrariesForLibs
+import org.gradle.accessors.dm.LibrariesForLibsInPluginsBlock
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.the

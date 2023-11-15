@@ -3,6 +3,7 @@ pluginManagement {
         google()
         gradlePluginPortal()
         mavenCentral()
+        mavenLocal()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
@@ -10,6 +11,7 @@ pluginManagement {
 dependencyResolutionManagement {
     repositories {
         mavenCentral()
+        mavenLocal()
         google()
     }
 

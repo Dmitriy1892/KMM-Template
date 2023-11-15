@@ -1,7 +1,8 @@
 plugins {
-    id("multiplatform-library-convention")
+    id("kmm.library.project")
+    id("multiplatform-compose-setup")
 }
 
 android {
-    namespace = "io.github.dmitriy1892.navigation.api"
+    namespace = "navigation.api"
 }

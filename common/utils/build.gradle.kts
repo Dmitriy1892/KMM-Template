@@ -1,7 +1,7 @@
 plugins {
-    id("multiplatform-library-convention")
+    id("kmm.library.base")
 }
 
 android {
-    namespace = "io.github.dmitriy1892.common.utils"
+    namespace = "common.utils"
 }

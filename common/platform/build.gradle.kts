@@ -1,7 +1,26 @@
+import extensions.androidMainDependencies
+import extensions.commonMainDependencies
+
 plugins {
-    id("multiplatform-viewbinding-setup")
+    id("kmm.library.base")
 }
 
 android {
-    namespace = "io.github.dmitriy1892.common.platform"
+    namespace = "common.platform"
+
+    buildFeatures {
+        viewBinding = true
+    }
+}
+
+commonMainDependencies {
+    implementation(libs.napier)
+}
+
+androidMainDependencies {
+    implementation(libs.bundles.android.view)
+    implementation(libs.bundles.android.feature)
+
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.exifinterface)
 }

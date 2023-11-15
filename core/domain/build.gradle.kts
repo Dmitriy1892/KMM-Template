@@ -1,17 +1,7 @@
 plugins {
-    id("multiplatform-library-convention")
-}
-
-kotlin {
-    sourceSets {
-        commonMain {
-            dependencies {
-                implementation(libs.kotlinx.coroutines.core)
-            }
-        }
-    }
+    id("kmm.library.project")
 }
 
 android {
-    namespace = "io.github.dmitriy1892.core.domain"
+    namespace = "core.domain"
 }

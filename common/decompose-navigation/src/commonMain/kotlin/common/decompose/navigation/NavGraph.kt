@@ -26,9 +26,12 @@ abstract class NavGraph<Config: Any, Destination: Any>(
         )
     }
 
-    abstract fun getInitialConfig(): Config
+    protected abstract fun getInitialConfig(): Config
 
-    abstract fun getConfigSerializer(): KSerializer<Config>
+    protected abstract fun getConfigSerializer(): KSerializer<Config>
 
-    abstract fun createDestination(config: Config, componentContext: ComponentContext): Destination
+    protected abstract fun createDestination(
+        config: Config,
+        componentContext: ComponentContext
+    ): Destination
 }

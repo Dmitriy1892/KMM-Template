@@ -13,6 +13,7 @@ class KmmFeatureComposeConvention : Plugin<Project> {
             with(pluginManager) {
                 apply("kmm.library.project")
                 apply("multiplatform-compose-setup")
+                apply("android-compose-config") // NOTE: Requires for layout inspector composable tree working
                 apply(libs.plugins.skie.get().pluginId)
             }
 

@@ -25,6 +25,7 @@ include(":resources:uikit")
 
 include(":common:platform")
 include(":common:utils")
+include(":common:decompose-navigation")
 
 include(":core:domain")
 include(":core:data")

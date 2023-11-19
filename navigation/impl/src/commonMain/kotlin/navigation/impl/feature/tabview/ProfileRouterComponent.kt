@@ -5,18 +5,19 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.popTo
 import com.arkivanov.decompose.router.stack.push
+import common.decompose.navigation.Destination
 import sample.feature.tabview.tabs.profile.view.ProfileScreen
 import navigation.api.feature.tabview.ProfileRouter
-import navigation.impl.BaseDestinationComponent
 import navigation.impl.navgraph.tabview.profile.ProfileGraphConfig
 
 class ProfileRouterComponent(
     componentContext: ComponentContext,
     private val screenIndex: Int,
     private val navigation: StackNavigation<ProfileGraphConfig>
-) : BaseDestinationComponent(componentContext), ProfileRouter {
-
-    override val viewModelKey: String = "profileScreen_$screenIndex"
+) : Destination(
+    componentContext = componentContext,
+    viewModelKey = "profileScreen_$screenIndex"
+), ProfileRouter {
 
     override fun openNextScreen() {
         if (screenIndex >= 3) {
@@ -27,7 +28,7 @@ class ProfileRouterComponent(
     }
 
     @Composable
-    override fun Content() {
+    override fun ContentScreen() {
         ProfileScreen(
             screenIndex = screenIndex,
             viewModelKey = viewModelKey,

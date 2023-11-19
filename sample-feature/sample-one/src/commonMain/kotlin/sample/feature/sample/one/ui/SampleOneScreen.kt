@@ -36,8 +36,8 @@ import io.github.dmitriy1892.kmm.mvvm.compose.kmmViewModel
 import io.github.dmitriy1892.kmm.mvvm.koin.factory.KoinAssistedViewModelFactory
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.compose.painterResource
-import io.github.dmitriy1892.kmm.mvi.compose.multiplatform.collectAsStateWithEssentyLifecycle
-import io.github.dmitriy1892.kmm.mvi.compose.multiplatform.collectSideEffectWithEssentyLifecycle
+import io.github.dmitriy1892.kmm.mvi.compose.multiplatform.collectAsStateWithLifecycle
+import io.github.dmitriy1892.kmm.mvi.compose.multiplatform.collectSideEffectWithLifecycle
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
@@ -51,8 +51,8 @@ fun SampleOneScreen(
         factory = KoinAssistedViewModelFactory(parametersOf(sampleId))
     ),
 ) {
-    val state: SampleOneState by viewModel.stateFlow.collectAsStateWithEssentyLifecycle()
-    viewModel.sideEffectFlow.collectSideEffectWithEssentyLifecycle { sideEffect ->
+    val state: SampleOneState by viewModel.stateFlow.collectAsStateWithLifecycle()
+    viewModel.sideEffectFlow.collectSideEffectWithLifecycle { sideEffect ->
         // TODO
     }
 

@@ -1,14 +1,13 @@
 package navigation.impl.navgraph.root
 
-import navigation.impl.BaseComponent
-import navigation.impl.BaseDestinationComponent
+import common.decompose.navigation.Destination
 import navigation.impl.feature.MainRouterComponent
 import navigation.impl.feature.SampleOneRouterComponent
 import navigation.impl.navgraph.tabview.main.TabViewGraph
 
 sealed interface RootDestination {
 
-    val component: BaseComponent
+    val component: Destination
 
     class MainDestination(override val component: MainRouterComponent) : RootDestination
 

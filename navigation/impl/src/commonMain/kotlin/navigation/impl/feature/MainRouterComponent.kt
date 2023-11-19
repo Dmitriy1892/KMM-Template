@@ -3,20 +3,20 @@ package navigation.impl.feature
 import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.StackNavigation
-import com.arkivanov.decompose.router.stack.popTo
 import com.arkivanov.decompose.router.stack.push
-import sample.feature.main.ui.MainScreen
+import common.decompose.navigation.Destination
 import navigation.api.feature.MainRouter
-import navigation.impl.BaseDestinationComponent
 import navigation.impl.navgraph.root.RootConfig
+import sample.feature.main.ui.MainScreen
 
 class MainRouterComponent(
      componentContext: ComponentContext,
      private val isFirstScreen: Boolean,
      private val navigation: StackNavigation<RootConfig>
-) : BaseDestinationComponent(componentContext), MainRouter {
-
-    override val viewModelKey: String = if (isFirstScreen) "MainVm1" else "MainVm2"
+) : Destination(
+    componentContext = componentContext,
+    viewModelKey = if (isFirstScreen) "MainVm1" else "MainVm2"
+), MainRouter {
 
     override fun openMainScreen() {
         navigation.push(RootConfig.TabsConfig)
@@ -27,7 +27,7 @@ class MainRouterComponent(
     }
 
     @Composable
-    override fun Content() {
+    override fun ContentScreen() {
         MainScreen(
             isFirstScreen = isFirstScreen,
             navigateUpToMain = ::openMainScreen,

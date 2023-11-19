@@ -21,10 +21,12 @@ class ProfileViewModel(
     override val initialState: ProfileState = ProfileState(screenIndex = screenIndex)
 
     fun openNextScreen() = intent {
+        reduceState { state -> state.copy(isProgress = true) }
         println("KMM_MVI: ProfileViewModel before delay")
         delay(3000)
         println("KMM_MVI: ProfileViewModel after delay - try send event")
         sendSideEffect(ProfileSideEffect.OpenNextScreen)
         println("KMM_MVI: ProfileViewModel after delay - successful send event")
+        reduceState { state -> state.copy(isProgress = false) }
     }
 }

@@ -5,18 +5,19 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.popTo
 import com.arkivanov.decompose.router.stack.push
+import common.decompose.navigation.Destination
 import navigation.api.feature.tabview.SettingsRouter
 import sample.feature.tabview.tabs.settings.view.SettingsScreen
-import navigation.impl.BaseDestinationComponent
 import navigation.impl.navgraph.tabview.settings.SettingsGraphConfig
 
 class SettingsRouterComponent(
     componentContext: ComponentContext,
     private val screenIndex: Int,
     private val navigation: StackNavigation<SettingsGraphConfig>
-) : BaseDestinationComponent(componentContext), SettingsRouter {
-
-    override val viewModelKey: String = "settingsKey_$screenIndex"
+) : Destination(
+    componentContext = componentContext,
+    viewModelKey = "settingsKey_$screenIndex"
+), SettingsRouter {
 
     override fun openNextScreen() {
         if (screenIndex >= 3) {
@@ -27,7 +28,7 @@ class SettingsRouterComponent(
     }
 
     @Composable
-    override fun Content() {
+    override fun ContentScreen() {
         SettingsScreen(
             screenIndex = screenIndex,
             viewModelKey = viewModelKey,

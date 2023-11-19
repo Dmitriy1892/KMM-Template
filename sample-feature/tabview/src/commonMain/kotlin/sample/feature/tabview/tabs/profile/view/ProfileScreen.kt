@@ -4,23 +4,22 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.github.dmitriy1892.kmm.mvi.compose.multiplatform.collectAsStateWithEssentyLifecycle
-import io.github.dmitriy1892.kmm.mvi.compose.multiplatform.collectSideEffect
-import io.github.dmitriy1892.kmm.mvi.compose.multiplatform.collectSideEffectWithEssentyLifecycle
+import io.github.dmitriy1892.kmm.mvi.compose.multiplatform.collectAsStateWithLifecycle
+import io.github.dmitriy1892.kmm.mvi.compose.multiplatform.collectSideEffectWithLifecycle
 import io.github.dmitriy1892.kmm.mvvm.compose.kmmViewModel
 import io.github.dmitriy1892.kmm.mvvm.koin.factory.KoinAssistedViewModelFactory
 import org.koin.core.parameter.parametersOf
+import sample.feature.tabview.tabs.profile.ProfileViewModel
 import sample.feature.tabview.tabs.profile.model.ProfileSideEffect
 import sample.feature.tabview.tabs.profile.model.ProfileState
-import sample.feature.tabview.tabs.profile.ProfileViewModel
 
 @Composable
 fun ProfileScreen(
@@ -33,13 +32,13 @@ fun ProfileScreen(
     navigateToNextScreen: () -> Unit
 ) {
     println("KMM_VM: ProfileViewModel: index: $screenIndex key: $viewModelKey, state = $viewModel, sideEffect = ${viewModel.sideEffectFlow}")
-    viewModel.sideEffectFlow.collectSideEffectWithEssentyLifecycle { sideEffect ->
+    viewModel.sideEffectFlow.collectSideEffectWithLifecycle { sideEffect ->
         when (sideEffect) {
             ProfileSideEffect.OpenNextScreen -> navigateToNextScreen()
         }
     }
 
-    val state by viewModel.stateFlow.collectAsStateWithEssentyLifecycle()
+    val state by viewModel.stateFlow.collectAsStateWithLifecycle()
 
     ProfileScreenContent(
         state = state,
@@ -57,9 +56,17 @@ fun ProfileScreenContent(
 
         Button(
             modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 40.dp),
+            enabled = state.isProgress.not(),
             onClick = onClick
         ) {
             Text(text = "Open next")
+        }
+
+        if (state.isProgress) {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .align(Alignment.Center)
+            )
         }
     }
 }

@@ -24,9 +24,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import io.github.dmitriy1892.kmm.mvi.compose.multiplatform.collectAsStateWithEssentyLifecycle
+import io.github.dmitriy1892.kmm.mvi.compose.multiplatform.collectAsStateWithLifecycle
 import io.github.dmitriy1892.kmm.mvi.compose.multiplatform.collectSideEffect
-import io.github.dmitriy1892.kmm.mvi.compose.multiplatform.collectSideEffectWithEssentyLifecycle
+import io.github.dmitriy1892.kmm.mvi.compose.multiplatform.collectSideEffectWithLifecycle
 import io.github.dmitriy1892.kmm.mvvm.compose.kmmViewModel
 import sample.feature.tabview.main.TabViewViewModel
 import sample.feature.tabview.main.model.MenuItem
@@ -40,11 +40,11 @@ fun TabViewScreen(
     viewModel: TabViewViewModel = kmmViewModel(),
     tabContent: @Composable BoxScope.() -> Unit
 ) {
-    viewModel.sideEffectFlow.collectSideEffectWithEssentyLifecycle { sideEffect ->
+    viewModel.sideEffectFlow.collectSideEffectWithLifecycle { sideEffect ->
 
     }
 
-    val state by viewModel.stateFlow.collectAsStateWithEssentyLifecycle()
+    val state by viewModel.stateFlow.collectAsStateWithLifecycle()
 
     TabViewScreenContent(
         state = state,

@@ -1,13 +1,13 @@
 package navigation.impl.navgraph.tabview.main
 
-import navigation.impl.BaseComponent
+import common.decompose.navigation.Destination
 import navigation.impl.navgraph.tabview.add.AddGraph
 import navigation.impl.navgraph.tabview.profile.ProfileGraph
 import navigation.impl.navgraph.tabview.settings.SettingsGraph
 
 interface TabDestination {
 
-    val component: BaseComponent
+    val component: Destination
 
     data class AddTabGraph(override val component: AddGraph) : TabDestination
 

@@ -9,43 +9,35 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.plus
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.scale
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stackAnimation
-import com.arkivanov.decompose.router.stack.ChildStack
-import com.arkivanov.decompose.router.stack.StackNavigation
-import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.value.Value
-import navigation.impl.BaseComponent
+import common.decompose.navigation.NavGraph
+import kotlinx.serialization.KSerializer
 import navigation.impl.feature.tabview.AddRouterComponent
 
 class AddGraph(
     componentContext: ComponentContext
-) : BaseComponent(componentContext) {
+) : NavGraph<AddGraphConfig, AddGraphDestination>(componentContext) {
 
-    private val navigation = StackNavigation<AddGraphConfig>()
-    private val childStack: Value<ChildStack<*, AddGraphDestination>> = childStack(
-        source = navigation,
-        serializer = AddGraphConfig.serializer(),
-        initialConfiguration = AddGraphConfig.AddScreen(1),
-        handleBackButton = true,
-        childFactory = ::createDestination
-    )
+    override fun getInitialConfig(): AddGraphConfig = AddGraphConfig.AddScreen(1)
+
+    override fun getConfigSerializer(): KSerializer<AddGraphConfig> = AddGraphConfig.serializer()
+
+    override fun createDestination(
+        config: AddGraphConfig,
+        componentContext: ComponentContext
+    ): AddGraphDestination = when (config) {
+        is AddGraphConfig.AddScreen -> AddGraphDestination.Add(
+            component = AddRouterComponent(componentContext, config.index, navigation)
+        )
+    }
 
     @Composable
-    override fun Content() {
+    override fun ContentScreen() {
         Children(
             modifier = Modifier.fillMaxSize(),
             stack = childStack,
             animation = stackAnimation(fade() + scale())
         ) { child ->
-            child.instance.component.ContentWithLifecycle()
+            child.instance.component.Content()
         }
-    }
-
-    private fun createDestination(
-        config: AddGraphConfig,
-        context: ComponentContext
-    ): AddGraphDestination = when (config) {
-        is AddGraphConfig.AddScreen -> AddGraphDestination.Add(
-            component = AddRouterComponent(context, config.index, navigation)
-        )
     }
 }

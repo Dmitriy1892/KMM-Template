@@ -9,43 +9,36 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.plus
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.scale
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stackAnimation
-import com.arkivanov.decompose.router.stack.ChildStack
-import com.arkivanov.decompose.router.stack.StackNavigation
-import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.value.Value
-import navigation.impl.BaseComponent
+import common.decompose.navigation.NavGraph
+import kotlinx.serialization.KSerializer
 import navigation.impl.feature.tabview.ProfileRouterComponent
 
 class ProfileGraph(
     componentContext: ComponentContext
-) : BaseComponent(componentContext) {
+) : NavGraph<ProfileGraphConfig, ProfileGraphDestination>(componentContext) {
 
-    private val navigation = StackNavigation<ProfileGraphConfig>()
-    private val childStack: Value<ChildStack<*, ProfileGraphDestination>> = childStack(
-        source = navigation,
-        serializer = ProfileGraphConfig.serializer(),
-        initialConfiguration = ProfileGraphConfig.Profile(1),
-        handleBackButton = true,
-        childFactory = ::createDestination
-    )
+    override fun getInitialConfig(): ProfileGraphConfig = ProfileGraphConfig.Profile(1)
+
+    override fun getConfigSerializer(): KSerializer<ProfileGraphConfig> =
+        ProfileGraphConfig.serializer()
+
+    override fun createDestination(
+        config: ProfileGraphConfig,
+        componentContext: ComponentContext
+    ): ProfileGraphDestination = when (config) {
+        is ProfileGraphConfig.Profile -> ProfileGraphDestination.ProfileDestination(
+            component = ProfileRouterComponent(componentContext, config.index, navigation)
+        )
+    }
 
     @Composable
-    override fun Content() {
+    override fun ContentScreen() {
         Children(
             modifier = Modifier.fillMaxSize(),
             stack = childStack,
             animation = stackAnimation(fade() + scale())
         ) { child ->
-            child.instance.component.ContentWithLifecycle()
+            child.instance.component.Content()
         }
-    }
-
-    private fun createDestination(
-        config: ProfileGraphConfig,
-        context: ComponentContext
-    ): ProfileGraphDestination = when (config) {
-        is ProfileGraphConfig.Profile -> ProfileGraphDestination.ProfileDestination(
-            component = ProfileRouterComponent(context, config.index, navigation)
-        )
     }
 }

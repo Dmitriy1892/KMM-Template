@@ -1,4 +1,3 @@
-import extensions.androidMainDependencies
 import extensions.commonMainDependencies
 
 plugins {
@@ -10,6 +9,8 @@ android {
 }
 
 commonMainDependencies {
+    implementation(project(":common:decompose-navigation"))
+    
     implementation(project(":feature:app"))
     implementation(project(":sample-feature:main"))
     implementation(project(":sample-feature:sample-one"))

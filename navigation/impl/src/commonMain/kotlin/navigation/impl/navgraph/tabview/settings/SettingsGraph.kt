@@ -9,44 +9,36 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.plus
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.scale
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stackAnimation
-import com.arkivanov.decompose.router.stack.ChildStack
-import com.arkivanov.decompose.router.stack.StackNavigation
-import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.value.Value
-import navigation.impl.BaseComponent
-import navigation.impl.feature.tabview.ProfileRouterComponent
+import common.decompose.navigation.NavGraph
+import kotlinx.serialization.KSerializer
 import navigation.impl.feature.tabview.SettingsRouterComponent
-import navigation.impl.navgraph.tabview.profile.ProfileGraphConfig
-import navigation.impl.navgraph.tabview.profile.ProfileGraphDestination
 
-class SettingsGraph(componentContext: ComponentContext) : BaseComponent(componentContext) {
+class SettingsGraph(
+    componentContext: ComponentContext
+) : NavGraph<SettingsGraphConfig, SettingsGraphDestination>(componentContext) {
 
-    private val navigation = StackNavigation<SettingsGraphConfig>()
-    private val childStack: Value<ChildStack<*, SettingsGraphDestination>> = childStack(
-        source = navigation,
-        serializer = SettingsGraphConfig.serializer(),
-        initialConfiguration = SettingsGraphConfig.Settings(1),
-        handleBackButton = true,
-        childFactory = ::createDestination
-    )
+    override fun getInitialConfig(): SettingsGraphConfig = SettingsGraphConfig.Settings(1)
+
+    override fun getConfigSerializer(): KSerializer<SettingsGraphConfig> =
+        SettingsGraphConfig.serializer()
+
+    override fun createDestination(
+        config: SettingsGraphConfig,
+        componentContext: ComponentContext
+    ): SettingsGraphDestination = when (config) {
+        is SettingsGraphConfig.Settings -> SettingsGraphDestination.SettingsDestination(
+            component = SettingsRouterComponent(componentContext, config.index, navigation)
+        )
+    }
 
     @Composable
-    override fun Content() {
+    override fun ContentScreen() {
         Children(
             modifier = Modifier.fillMaxSize(),
             stack = childStack,
             animation = stackAnimation(fade() + scale())
         ) { child ->
-            child.instance.component.ContentWithLifecycle()
+            child.instance.component.Content()
         }
-    }
-
-    private fun createDestination(
-        config: SettingsGraphConfig,
-        context: ComponentContext
-    ): SettingsGraphDestination = when (config) {
-        is SettingsGraphConfig.Settings -> SettingsGraphDestination.SettingsDestination(
-            component = SettingsRouterComponent(context, config.index, navigation)
-        )
     }
 }

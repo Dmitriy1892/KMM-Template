@@ -40,7 +40,7 @@ class RootComponentImpl(
             modifier = Modifier.fillMaxSize(),
             animation = stackAnimation(slide())
         ) { child ->
-            child.instance.component.ContentWithLifecycle()
+            child.instance.component.Content()
         }
     }
 
